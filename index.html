@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>luckys_baking_zone | Fresh Artisanal Cakes & Custom Orders</title>
+  <meta name="description" content="Order freshly baked artisanal cakes, 100% eggless options, custom birthday & wedding cakes online from luckys_baking_zone. Fast 2-hour express delivery or direct call to owner!">
+  
+  <!-- FontAwesome & Google Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ================= HEADER / NAVBAR ================= -->
+  <header class="header">
+    <div class="container header-inner">
+      <a href="#" class="logo">
+        <div class="logo-badge">🎂</div>
+        <span>luckys_baking_zone</span>
+      </a>
+
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#hero" class="nav-link active">Home</a></li>
+          <li><a href="#menu" class="nav-link">Cake Menu</a></li>
+          <li><a href="#builder" class="nav-link">Custom Designer</a></li>
+          <li><a href="#owner" class="nav-link">Call Owner</a></li>
+          <li><a href="#reviews" class="nav-link">Reviews</a></li>
+        </ul>
+      </nav>
+
+      <div class="header-actions">
+        <button class="btn btn-call" onclick="openOwnerModal()" title="Call Owner Lucky Directly">
+          <i class="fas fa-phone-alt"></i>
+          <span style="display: inline-block;">Call Owner</span>
+        </button>
+
+        <button class="cart-icon-btn" onclick="toggleCartDrawer(true)" aria-label="View Shopping Basket">
+          <i class="fas fa-shopping-bag"></i>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= HERO SECTION ================= -->
+  <section id="hero" class="hero">
+    <div class="container hero-grid">
+      <div class="hero-text-col">
+        <div class="hero-badge">
+          <i class="fas fa-certificate"></i> Artisanal Bakery & Pure Veg Options Available
+        </div>
+        <h1 class="hero-title">
+          Baking Joy into Every <span>Delicious Layer.</span>
+        </h1>
+        <p class="hero-description">
+          Handcrafted daily using fine Belgian chocolate, fresh fruits, and premium ingredients. Order online for 2-hour express delivery or call owner Lucky directly!
+        </p>
+
+        <div class="hero-ctas">
+          <a href="#menu" class="btn btn-primary">
+            <i class="fas fa-utensils"></i> Explore Menu & Order
+          </a>
+          <button class="btn btn-secondary" onclick="openOwnerModal()">
+            <i class="fas fa-phone-volume" style="color: #25D366;"></i> Call Owner Directly
+          </button>
+        </div>
+
+        <div class="hero-features">
+          <div class="feature-item">
+            <i class="fas fa-bolt"></i> 2-Hour Express Delivery
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-seedling"></i> 100% Eggless Cakes
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-magic"></i> Custom Theme Designers
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-image-wrapper">
+        <div class="hero-image-card">
+          <img src="images/hero_cake.png" alt="Signature Berry Chocolate Truffle Cake by luckys_baking_zone">
+        </div>
+        <div class="hero-floating-card">
+          <div class="floating-avatar">🍰</div>
+          <div class="floating-info">
+            <h4>luckys_baking_zone Signature Truffle</h4>
+            <p>Rated 5.0 ⭐ (150+ Happy Reviews)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= STORE STATUS & PINCODE CHECKER ================= -->
+  <section class="store-status-bar">
+    <div class="container">
+      <div class="status-grid">
+        <div class="status-card">
+          <div class="status-icon"><i class="fas fa-clock"></i></div>
+          <div class="status-text">
+            <label>Store Hours</label>
+            <span>8:00 AM - 11:00 PM <span class="badge-open">OPEN NOW</span></span>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <div class="status-icon"><i class="fas fa-phone"></i></div>
+          <div class="status-text">
+            <label>Direct Phone Order</label>
+            <span onclick="callOwnerDirect()" style="cursor: pointer; text-decoration: underline;">+91 93659 04191</span>
+          </div>
+        </div>
+
+        <div class="status-card">
+          <div class="status-icon"><i class="fas fa-motorcycle"></i></div>
+          <div class="status-text">
+            <label>Free Delivery</label>
+            <span>On Orders Above ₹799</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pincode Widget -->
+      <div class="pincode-section">
+        <div class="container pincode-wrapper">
+          <div class="pincode-text">
+            <h3><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Check Express Delivery Availability</h3>
+            <p>Enter your 6-digit delivery pincode to check instant 2-hour delivery slots.</p>
+          </div>
+          <div>
+            <div class="pincode-form">
+              <input type="text" id="pincodeInput" class="pincode-input" placeholder="e.g. 110001" maxlength="6">
+              <button class="btn btn-primary" onclick="checkPincode()">Check</button>
+            </div>
+            <div id="pincodeResult" class="pincode-result"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CAKE MENU SECTION ================= -->
+  <section id="menu" class="section">
+    <div class="container">
+      <h2 class="section-title">Our Handcrafted Cakes</h2>
+      <p class="section-subtitle">Baked fresh upon order with pure passion & finest ingredients</p>
+
+      <!-- Filter Controls -->
+      <div class="menu-controls">
+        <div class="search-and-sort">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search chocolate, velvet, mango, cheesecake...">
+          </div>
+
+          <label class="diet-toggle">
+            <input type="checkbox" id="egglessOnlyToggle">
+            <span>Pure Eggless Cakes Only 🌿</span>
+          </label>
+        </div>
+
+        <!-- Categories Filter -->
+        <div class="categories-scroll">
+          <button class="category-tab active" onclick="setCategory('all', this)">All Cakes</button>
+          <button class="category-tab" onclick="setCategory('signature', this)">✨ Signature Specials</button>
+          <button class="category-tab" onclick="setCategory('truffles', this)">🍫 Chocolate Truffles</button>
+          <button class="category-tab" onclick="setCategory('birthday', this)">🎉 Birthday Cakes</button>
+          <button class="category-tab" onclick="setCategory('wedding', this)">👑 Wedding & Elegance</button>
+          <button class="category-tab" onclick="setCategory('cheesecakes', this)">🍓 Cheesecakes</button>
+          <button class="category-tab" onclick="setCategory('cupcakes', this)">🧁 Cupcakes & Pastries</button>
+        </div>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid" id="productsGrid">
+        <!-- Dynamically rendered via app.js -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CUSTOM CAKE BUILDER SECTION ================= -->
+  <section id="builder" class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <h2 class="section-title">Custom Cake Designer</h2>
+      <p class="section-subtitle">Design your dream cake step-by-step & get an instant price estimate!</p>
+
+      <div class="builder-section">
+        <div class="builder-grid">
+          <!-- Step Form Controls -->
+          <div class="builder-steps">
+            <!-- Step 1: Shape -->
+            <div>
+              <div class="step-group-title">1. Select Cake Shape</div>
+              <div class="option-cards-grid">
+                <div class="builder-option-card active" onclick="selectBuilderOption('shape', 'Round', this)">
+                  <i class="fas fa-circle"></i>
+                  <span>Round</span>
+                  <small>Classic</small>
+                </div>
+                <div class="builder-option-card" onclick="selectBuilderOption('shape', 'Heart', this)">
+                  <i class="fas fa-heart"></i>
+                  <span>Heart</span>
+                  <small>Romance</small>
+                </div>
+                <div class="builder-option-card" onclick="selectBuilderOption('shape', 'Square', this)">
+                  <i class="fas fa-square"></i>
+                  <span>Square</span>
+                  <small>Modern</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Flavour -->
+            <div>
+              <div class="step-group-title">2. Choose Cake Flavor</div>
+              <div class="option-cards-grid">
+                <div class="builder-option-card active" onclick="selectBuilderOption('flavour', 'Belgian Chocolate Truffle', this)">
+                  <i class="fas fa-cookie"></i>
+                  <span>Dark Truffle</span>
+                </div>
+                <div class="builder-option-card" onclick="selectBuilderOption('flavour', 'Red Velvet Berry', this)">
+                  <i class="fas fa-birthday-cake"></i>
+                  <span>Red Velvet</span>
+                </div>
+                <div class="builder-option-card" onclick="selectBuilderOption('flavour', 'Lotus Biscoff', this)">
+                  <i class="fas fa-bread-slice"></i>
+                  <span>Lotus Biscoff</span>
+                </div>
+                <div class="builder-option-card" onclick="selectBuilderOption('flavour', 'Vanilla Bean & Fresh Fruit', this)">
+                  <i class="fas fa-lemon"></i>
+                  <span>Fresh Fruit</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Weight / Size -->
+            <div>
+              <div class="step-group-title">3. Cake Weight & Tiers</div>
+              <div class="option-cards-grid">
+                <div class="builder-option-card" onclick="selectBuilderOption('weight', '0.5 kg', this)">
+                  <span>0.5 kg</span>
+                  <small>4-6 Servings</small>
+                </div>
+                <div class="builder-option-card active" onclick="selectBuilderOption('weight', '1 kg', this)">
+                  <span>1 kg</span>
+                  <small>8-10 Servings</small>
+                </div>
+                <div class="builder-option-card" onclick="selectBuilderOption('weight', '2 kg', this)">
+                  <span>2 kg</span>
+                  <small>15-18 Servings</small>
+                </div>
+                <div class="builder-option-card" onclick="selectBuilderOption('weight', '3 Tier (3.5kg)', this)">
+                  <span>3 Tier</span>
+                  <small>Grand Party</small>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Custom Message on Cake -->
+            <div>
+              <div class="step-group-title">4. Message Written on Cake</div>
+              <input type="text" id="customCakeMessage" class="form-control" placeholder="e.g. Happy Birthday Rahul! 🎉">
+            </div>
+          </div>
+
+          <!-- Sticky Preview & Summary Card -->
+          <div class="builder-preview-card">
+            <div>
+              <div class="preview-header">
+                <h3>Custom Cake Summary</h3>
+                <p style="font-size: 0.85rem; color: #BCAAA4;">Handcrafted custom order</p>
+              </div>
+
+              <ul class="preview-summary-list">
+                <li><span>Shape:</span> <span id="prevShape">Round</span></li>
+                <li><span>Flavor:</span> <span id="prevFlavour">Belgian Chocolate Truffle</span></li>
+                <li><span>Weight:</span> <span id="prevWeight">1 kg</span></li>
+                <li><span>Dietary:</span> <span>100% Eggless</span></li>
+                <li><span>Estimated Prep:</span> <span>3 Hours</span></li>
+              </ul>
+            </div>
+
+            <div>
+              <div class="preview-price-box">
+                <label>Total Estimate:</label>
+                <val id="prevPrice">₹1200</val>
+              </div>
+
+              <button class="btn btn-primary" style="width: 100%;" onclick="addCustomCakeToCart()">
+                <i class="fas fa-cart-plus"></i> Add Custom Order to Basket
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CALL OWNER SECTION ================= -->
+  <section id="owner" class="section">
+    <div class="container">
+      <div class="call-owner-section">
+        <div class="call-owner-card">
+          <div class="owner-avatar-ring">
+            <i class="fas fa-user-tie"></i>
+          </div>
+          <h2 style="font-family: var(--font-serif); font-size: 2.2rem; margin-bottom: 0.5rem;">
+            Speak Directly with Lucky (Owner & Master Baker)
+          </h2>
+          <p style="color: var(--text-muted); font-size: 1.05rem;">
+            Need a urgent same-hour cake delivery, special customization, or corporate order? Call us directly anytime!
+          </p>
+
+          <span class="owner-phone-number">+91 93659 04191</span>
+
+          <div class="whatsapp-image-card">
+            <img src="WhatsApp Image 2026-07-31 at 8.48.08 PM.jpeg" alt="WhatsApp contact image for luckys_baking_zone">
+          </div>
+
+          <div class="owner-actions">
+            <button class="btn btn-call" onclick="callOwnerDirect()">
+              <i class="fas fa-phone-alt"></i> Call Owner Now
+            </button>
+            <button class="btn btn-secondary" onclick="openWhatsAppOrder()">
+              <i class="fab fa-whatsapp" style="color: #25D366; font-size: 1.2rem;"></i> WhatsApp Quick Order
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CUSTOMER REVIEWS ================= -->
+  <section id="reviews" class="section" style="background: var(--bg-surface);">
+    <div class="container">
+      <h2 class="section-title">What Our Cake Lovers Say</h2>
+      <p class="section-subtitle">Over 5,000+ celebrations made sweeter in town</p>
+
+      <div class="reviews-grid">
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">PS</div>
+            <div>
+              <div class="review-name">Priya Sharma</div>
+              <div class="review-stars">★★★★★ <span style="color: var(--success); font-size: 0.75rem;">✔ Verified Buyer</span></div>
+            </div>
+          </div>
+          <p class="review-text">"Ordered the Belgian Dark Chocolate Truffle for my husband's birthday. It was so rich, moist and delivered within 90 minutes! Calling Lucky owner directly was super smooth."</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">AM</div>
+            <div>
+              <div class="review-name">Anish Mehta</div>
+              <div class="review-stars">★★★★★ <span style="color: var(--success); font-size: 0.75rem;">✔ Verified Buyer</span></div>
+            </div>
+          </div>
+          <p class="review-text">"The Custom Wedding Tier cake was breathtaking! Every guest praised the Red Velvet and Biscoff flavors. Lucky personally ensured flawless delivery."</p>
+        </div>
+
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">RK</div>
+            <div>
+              <div class="review-name">Ritu Kapoor</div>
+              <div class="review-stars">★★★★★ <span style="color: var(--success); font-size: 0.75rem;">✔ Verified Buyer</span></div>
+            </div>
+          </div>
+          <p class="review-text">"100% Pure Eggless cakes that taste so light and delicious! Highly recommend their Mango Cheesecake in summer."</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FLOATING CALL WIDGET ================= -->
+  <button class="floating-call-btn" onclick="openOwnerModal()" title="Call Owner Lucky">
+    <i class="fas fa-phone-alt"></i> Call Owner (+91 93659 04191)
+  </button>
+
+  <!-- ================= SLIDE-OVER CART DRAWER ================= -->
+  <div class="cart-drawer-overlay" id="cartOverlay" onclick="toggleCartDrawer(false)"></div>
+  <div class="cart-drawer" id="cartDrawer">
+    <div class="cart-header">
+      <h3>Your Cake Basket</h3>
+      <button class="close-btn" onclick="toggleCartDrawer(false)">&times;</button>
+    </div>
+    <div class="cart-items-body" id="cartItemsBody">
+      <!-- Dynamic cart items -->
+    </div>
+    <div class="cart-footer">
+      <div class="summary-row">
+        <span>Subtotal</span>
+        <span id="cartSubtotal">₹0</span>
+      </div>
+      <div class="summary-row">
+        <span>Express Delivery</span>
+        <span style="color: var(--success); font-weight:700;">FREE</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total Payable</span>
+        <span id="cartTotal">₹0</span>
+      </div>
+      <button class="btn btn-primary" style="width:100%; margin-top: 1rem;" onclick="openCheckoutModal()">
+        Proceed to Checkout <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= OWNER CONTACT MODAL ================= -->
+  <div class="modal-overlay" id="ownerModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4><i class="fas fa-store" style="color: var(--accent-terracotta);"></i> Contact Owner Lucky</h4>
+        <button class="close-btn" onclick="closeOwnerModal()">&times;</button>
+      </div>
+      <div class="modal-body" style="text-align: center;">
+        <div style="font-size: 3rem; margin-bottom: 0.5rem;">👨‍🍳</div>
+        <h3 style="font-family: var(--font-serif); font-size: 1.4rem;">Lucky Singh</h3>
+        <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">Owner & Master Pastry Chef</p>
+
+        <div style="background: var(--bg-primary); padding: 1.25rem; border-radius: var(--radius-md); text-align: left; margin-bottom: 1.5rem;">
+          <p style="margin-bottom: 0.5rem;"><strong>📞 Direct Phone:</strong> +91 93659 04191</p>
+          <p style="margin-bottom: 0.5rem;"><strong>💬 WhatsApp:</strong> +91 93659 04191</p>
+          <p style="margin-bottom: 0.5rem;"><strong>🔁 UPI (Pay):</strong> <span id="ownerUpi">nikhilbharali418a@okhdfcbank</span> <button class="btn" style="margin-left:0.5rem; padding:0.25rem 0.5rem; font-size:0.85rem;" onclick="copyUpi()">Copy UPI</button></p>
+          <p style="margin-bottom: 0.5rem;"><strong>📍 Bakery Address:</strong> Shop #14, Royal Bakery Lane, Main Market</p>
+          <p><strong>⏰ Working Hours:</strong> 8:00 AM - 11:00 PM Daily</p>
+        </div>
+
+        <div style="display: flex; gap: 0.75rem; justify-content: center;">
+          <button class="btn btn-call" style="flex:1;" onclick="callOwnerDirect()">
+            <i class="fas fa-phone-alt"></i> Call Now
+          </button>
+          <button class="btn btn-secondary" style="flex:1;" onclick="openWhatsAppOrder()">
+            <i class="fab fa-whatsapp" style="color: #25D366;"></i> WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= CHECKOUT FORM MODAL ================= -->
+  <div class="modal-overlay" id="checkoutModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4><i class="fas fa-credit-card" style="color: var(--accent-terracotta);"></i> Place Your Cake Order</h4>
+        <button class="close-btn" onclick="closeCheckoutModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <form onsubmit="submitCheckoutOrder(event)">
+          <div style="margin-bottom: 1rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:700; margin-bottom:0.3rem;">Full Name</label>
+            <input type="text" class="form-control" required placeholder="e.g. Rahul Sharma">
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:700; margin-bottom:0.3rem;">Mobile Number (For Delivery Updates)</label>
+            <input type="tel" class="form-control" required placeholder="+91 93659 04191">
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:700; margin-bottom:0.3rem;">Delivery Address & Landmark</label>
+            <textarea class="form-control" rows="2" required placeholder="House No, Street, Landmark, City, Pincode"></textarea>
+          </div>
+
+          <div style="margin-bottom: 1.5rem;">
+            <label style="display:block; font-size:0.85rem; font-weight:700; margin-bottom:0.3rem;">Payment Method</label>
+            <select class="form-control">
+              <option>UPI / GPay / PhonePe (Instant QR)</option>
+              <option>Cash on Delivery (COD)</option>
+              <option>Credit / Debit Card</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom: 1rem; background: var(--bg-surface); padding:0.75rem; border-radius:8px; display:flex; align-items:center; gap:0.5rem;">
+            <strong style="font-size:0.9rem;">UPI ID:</strong>
+            <span id="checkoutUpi">nikhilbharali418a@okhdfcbank</span>
+            <button type="button" class="btn" style="margin-left:auto; padding:0.3rem 0.6rem; font-size:0.9rem;" onclick="copyUpi()">Copy UPI</button>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="width: 100%;">
+            <i class="fas fa-check-circle"></i> Confirm & Place Order
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= REAL-TIME ORDER TRACKER MODAL ================= -->
+  <div class="modal-overlay" id="trackerModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4><i class="fas fa-motorcycle" style="color: var(--accent-terracotta);"></i> Live Order Status</h4>
+        <button class="close-btn" onclick="closeTrackerModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div style="text-align: center; margin-bottom: 1rem;">
+          <span style="background: var(--success-bg); color: var(--success); font-weight: 800; padding: 0.3rem 0.8rem; border-radius: var(--radius-full); font-size: 0.85rem;">
+            ORDER #LC-${Math.floor(10000 + Math.random() * 90000)} PLACED
+          </span>
+          <h3 style="font-family: var(--font-serif); margin-top: 0.75rem;">Your Fresh Cake is Being Prepared!</h3>
+        </div>
+
+        <div class="tracker-timeline">
+          <div class="tracker-step completed">
+            <div class="tracker-step-icon"><i class="fas fa-check"></i></div>
+            <div class="tracker-step-title">Order Received & Confirmed</div>
+            <div class="tracker-step-time">Just now</div>
+          </div>
+
+          <div class="tracker-step active">
+            <div class="tracker-step-icon"><i class="fas fa-fire"></i></div>
+            <div class="tracker-step-title">Baking Sponge in Oven</div>
+            <div class="tracker-step-time">In progress (~15 mins)</div>
+          </div>
+
+          <div class="tracker-step">
+            <div class="tracker-step-icon"><i class="fas fa-stroopwafel"></i></div>
+            <div class="tracker-step-title">Decorating & Frosting</div>
+            <div class="tracker-step-time">Estimated in 35 mins</div>
+          </div>
+
+          <div class="tracker-step">
+            <div class="tracker-step-icon"><i class="fas fa-shipping-fast"></i></div>
+            <div class="tracker-step-title">Out for Express Delivery</div>
+            <div class="tracker-step-time">Estimated in 60 mins</div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.75rem;">
+          <button class="btn btn-call" onclick="callOwnerDirect()">
+            <i class="fas fa-phone-alt"></i> Call Owner for Status Updates
+          </button>
+          <a class="btn btn-secondary" href="/orders.html" target="_blank" style="justify-content: center;">
+            <i class="fas fa-list"></i> View All Orders
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <a href="#" class="logo" style="color: white; margin-bottom: 1rem;">
+            <div class="logo-badge">🎂</div>
+            <span>luckys_baking_zone</span>
+          </a>
+          <p>Handcrafting sweet moments with love, premium Belgian chocolate, and pure artisanal ingredients since 2018.</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#menu">Cake Menu</a></li>
+            <li><a href="#builder">Custom Cake Designer</a></li>
+            <li><a href="#owner">Call Owner</a></li>
+            <li><a href="#reviews">Customer Reviews</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Cake Categories</h4>
+          <ul class="footer-links">
+            <li><a href="#menu">Chocolate Truffles</a></li>
+            <li><a href="#menu">Red Velvet Cakes</a></li>
+            <li><a href="#menu">Grand Wedding Tiers</a></li>
+            <li><a href="#menu">100% Pure Eggless</a></li>
+            <li><a href="#menu">Fresh Cheesecakes</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>Contact & Location</h4>
+          <p style="margin-bottom: 0.5rem;"><i class="fas fa-phone-alt" style="color: var(--accent-gold);"></i> +91 93659 04191</p>
+          <p style="margin-bottom: 0.5rem;"><i class="fas fa-envelope" style="color: var(--accent-gold);"></i> orders@luckys_baking_zone.com</p>
+          <p><i class="fas fa-map-marker-alt" style="color: var(--accent-gold);"></i> Shop #14, Royal Bakery Lane, Main Market</p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 luckys_baking_zone. All Rights Reserved.</p>
+        <p>Baked fresh with ❤️ for cake lovers</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- App Script -->
+  <script src="app.js"></script>
+</body>
+</html>

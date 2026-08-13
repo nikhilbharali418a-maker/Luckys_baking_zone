@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>luckys_baking_zone | Orders Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { padding: 2rem 1rem 4rem; }
+    .orders-page { max-width: 1100px; margin: 0 auto; }
+    .orders-header { margin-bottom: 1.5rem; }
+    .orders-list { display: grid; gap: 1rem; }
+    .order-card { background: var(--bg-surface); border: var(--border-light); border-radius: var(--radius-md); padding: 1.25rem; box-shadow: var(--shadow-sm); }
+    .order-meta { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.75rem; }
+    .status-pill { display: inline-block; padding: 0.35rem 0.7rem; border-radius: 999px; background: var(--success-bg); color: var(--success); font-weight: 700; font-size: 0.8rem; }
+    .order-items { color: var(--text-muted); font-size: 0.95rem; }
+    .empty-state { text-align: center; padding: 3rem 1rem; background: var(--bg-surface); border-radius: var(--radius-md); border: var(--border-light); }
+  </style>
+</head>
+<body>
+  <div class="orders-page">
+    <div class="orders-header">
+      <h1 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.5rem;">Orders Dashboard</h1>
+      <p style="color: var(--text-muted);">All cake orders submitted through the site will appear here.</p>
+    </div>
+    <div id="ordersList" class="orders-list"></div>
+  </div>
+
+  <script>
+    async function loadOrders() {
+      const container = document.getElementById('ordersList');
+      container.innerHTML = '';
+
+      // Try fetching orders from backend API first
+      try {
+        const res = await fetch('/api/orders');
+        if (res.ok) {
+          const data = await res.json();
+          const orders = (data.orders || []);
+          if (!orders.length) {
+            container.innerHTML = '<div class="empty-state"><h3>No orders yet</h3><p>Orders placed from the website will appear here automatically.</p></div>';
+            return;
+          }
+
+          container.innerHTML = orders.map(order => `
+            <div class="order-card">
+              <div class="order-meta">
+                <div>
+                  <strong>Order #${order.orderNumber || order.id}</strong>
+                  <div style="color: var(--text-muted); font-size: 0.9rem;">${order.customerName} • ${order.mobile}</div>
+                </div>
+                <span class="status-pill">${order.status}</span>
+              </div>
+              <div class="order-items">
+                <div><strong>Address:</strong> ${order.address}</div>
+                <div><strong>Payment:</strong> ${order.paymentMethod}</div>
+                <div><strong>Items:</strong> ${(order.items || []).map(item => `${item.name} (${item.qty}x)`).join(', ') || 'No items listed'}</div>
+                <div><strong>Total:</strong> ₹${order.totalAmount || 0}</div>
+                <div style="margin-top: 0.4rem; color: var(--text-light); font-size: 0.82rem;">Placed: ${new Date(order.createdAt).toLocaleString()}</div>
+              </div>
+            </div>
+          `).join('');
+          return;
+        }
+      } catch (err) {
+        console.warn('Could not fetch orders from server, falling back to local storage', err);
+      }
+
+      // Fallback: load from localStorage if server unavailable
+      const orders = JSON.parse(localStorage.getItem('luckys_baking_zone_orders') || '[]');
+      if (!orders.length) {
+        container.innerHTML = '<div class="empty-state"><h3>No orders yet</h3><p>Orders placed from the website will appear here automatically.</p></div>';
+        return;
+      }
+
+      container.innerHTML = orders.map(order => `
+        <div class="order-card">
+          <div class="order-meta">
+            <div>
+              <strong>Order #${order.orderNumber || order.id}</strong>
+              <div style="color: var(--text-muted); font-size: 0.9rem;">${order.customerName} • ${order.mobile}</div>
+            </div>
+            <span class="status-pill">${order.status}</span>
+          </div>
+          <div class="order-items">
+            <div><strong>Address:</strong> ${order.address}</div>
+            <div><strong>Payment:</strong> ${order.paymentMethod}</div>
+            <div><strong>Items:</strong> ${(order.items || []).map(item => `${item.name} (${item.qty}x)`).join(', ') || 'No items listed'}</div>
+            <div><strong>Total:</strong> ₹${order.totalAmount || 0}</div>
+            <div style="margin-top: 0.4rem; color: var(--text-light); font-size: 0.82rem;">Placed: ${new Date(order.createdAt).toLocaleString()}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    loadOrders();
+  </script>
+</body>
+</html>
